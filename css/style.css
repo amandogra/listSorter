@@ -1,17 +1,10 @@
 ul {
     list-style: none;
 }
-.headerSortDown .icn,
-.headerSortUp .icn {
-    background: transparent url("../images/asc.gif") no-repeat 0 0;
-    display: inline;
-    height: 13px;
-    right: 0;
-    position: absolute;
-    top: 8px;
-    width: 13px;
+.headerSortDown .glyphicon:before {
+    content: "\e114";
 }
 
-.headerSortUp .icn {
-    background: transparent url("../images/desc.gif") no-repeat 0 0;
-}   
+.headerSortUp .glyphicon:before {
+    content: "\e113";
+}
