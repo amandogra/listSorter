@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang=en>
+    <head>
+        <title>List Sorter</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.listSorter.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div id="tableLikeList" class="row panel panel-default">
+                <div class="thead panel-heading clearfix">
+                    <div data-idx="0" class="col-md-6 hcell">
+                       <p class="text-center"><strong>Name</strong>
+                          <span class="icn"></span>
+                       </p>
+                    </div>
+                    <div data-idx="1" class="col-md-6 hcell">
+                        <p class="text-center"><strong>Age</strong>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </p>
+                    </div>
+                </div>
+                <ul class="tbody cb list-group">
+                    <li class="list-group-item clearfix">
+                        <div data-idx="0" class="pointer col-md-6 cell">
+                            <p class="text-center">Aman Dogra</p>
+                        </div>
+                        <div data-idx="1" class="pointer col-md-6 cell">
+                            <p class="text-center">30</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item clearfix">
+                        <div data-idx="0" class="pointer col-md-6 cell">
+                            <p class="text-center">Harry Potter</p>
+                        </div>
+                        <div data-idx="1" class="pointer col-md-6 cell">
+                            <p class="text-center">20</p>
+                        </div>
+                   </li>
+                   <li class="list-group-item clearfix">
+                        <div data-idx="0" class="pointer col-md-6 cell">
+                            <p class="text-center">Hiro Nakamura</p>
+                        </div>
+                        <div data-idx="1" class="pointer col-md-6 cell">
+                            <p class="text-center">35</p>
+                        </div>
+                   </li>
+                    <li class="list-group-item clearfix">
+                        <div data-idx="0" class="pointer col-md-6 cell">
+                            <p class="text-center">Zack Nicholas</p>
+                        </div>
+                        <div data-idx="1" class="pointer col-md-6 cell">
+                            <p class="text-center">15</p>
+                        </div>
+                   </li>
+                </ul>
+            </div>
+        </div>
+        <script>
+            $('#tableLikeList').listSorter({sortList : [[0,0]]});
+        </script>
+    </body>    
+</html>
