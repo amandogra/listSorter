@@ -118,7 +118,7 @@
 
             //self._parsers[1]. Numeric parser
             addParser({
-                id: "digit",
+                id: "numeric",
                 is: function(str) {
                     return self._isDigit(str);
                 },
@@ -366,7 +366,9 @@
                 // set css for headers
                 self._setHeadersCss();
                 // this single line below is doing all the magical stuff
-                self._appendToTable(self._actualSort());
+                var s = self._actualSort(currentColIndex);
+                console.log(s);
+                self._appendToTable(s);
                 // stop normal event by returning false
                 return false;
             });
@@ -431,30 +433,31 @@
          * @description This function actually sorts the values of the columns
          * @returns cache
          */
-        this._actualSort = function() {
+        this._actualSort = function(index) {
             var sortList = config.sortList,
                 cache = self._cache;
-
+            
             var sortWrapper = function(a, b) {
                 var column = sortList[0][0],
                     order = sortList[0][1],
                     type = config.parsers[column].type;
-
+                
+                console.log(column + '-|-' + order + '-|-' + type);
                 //case: text - ascending
                 if (type === 'text' && order == 0) {
-                    return (a[0] == b[0] ? 0 : (a[0] === null ? Number.POSITIVE_INFINITY : (b[0] === null ? Number.NEGATIVE_INFINITY : (a[0] < b[0]) ? -1 : 1)));
+                    return (a[index] == b[index] ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : (a[index] < b[index]) ? -1 : 1)));
                 
                 //case: text - descending
                 } else if (type === 'text' && order == 1) {
-                    return (a[0] == b[0] ? 0 : (a[0] === null ? Number.POSITIVE_INFINITY : (b[0] === null ? Number.NEGATIVE_INFINITY : (a[0] > b[0]) ? -1 : 1)));
+                    return (a[index] == b[index] ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : (a[index] > b[index]) ? -1 : 1)));
                     
                 //case: numeric - ascending
                 } else if (type === 'numeric' && order == 0) {
-                    return (a[0] === null && b[0] === null ? 0 : (a[0] === null ? Number.POSITIVE_INFINITY : (b[0] === null ? Number.NEGATIVE_INFINITY : a[0] - b[0])));
+                    return (a[index] === null && b[index] === null ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : a[index] - b[index])));
 
                 //case: numeric - descending
                 } else if (type === 'numeric' && order == 1) {
-                    return (a[0] == b[0] ? 0 : (a[0] === null ? Number.POSITIVE_INFINITY : (b[0] === null ? Number.NEGATIVE_INFINITY : a[0] - b[0])));
+                    return (a[index] == b[index] ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : b[index] - a[index])));
                 
                 //default case: if value is the same keep orignal order. Original order is stored in the last element of each item in cache.normalized
                 } else {
@@ -508,7 +511,7 @@
             // set css for headers
             self._setHeadersCss();
             // sort the table and append it to the dom
-            self._appendToTable(self._actualSort());
+            self._appendToTable(self._actualSort(config.sortList[0][0]));
         };
 
         /**
