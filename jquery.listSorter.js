@@ -17,15 +17,15 @@
      *          headClass - Class on each of the cells in the header
      *          bodyClass - Class of the ul behaving as the tbody of the table
      *          rowSelector - Selector for the rows (list elements) in the table
-     *          cellClass - Class on each of the div in the li of the ul with 'bodyClass'  
+     *          cellClass - Class on each of the div in the li of the ul with 'bodyClass'
      *          cssAsc - Class to apply on the header cell to show the ascending arrow
      *          cssDesc - Class to apply on the header cell to show the descending arrow
      *          parsers - List of all the parsers which will be applied on this table. This is sorted per columns of the table.
      *          headers - To enable/disable sorting on specific headers of a specific type.
-     *              Example: $('#targetDiv').listSorter({ headers: { 0: { sorter: text}, 1: {sorter: false}, 2: {sorter: numeric} } }); 
+     *              Example: $('#targetDiv').listSorter({ headers: { 0: { sorter: text}, 1: {sorter: false}, 2: {sorter: numeric} } });
      *              Possible values of sorter are: text, numeric and false
-     *          sortList - Array of [count, order] to provide the default sorting   
-     *              Example: $('#targetDiv').listSorter({ sortList: [[0,1]] }); 
+     *          sortList - Array of [count, order] to provide the default sorting
+     *              Example: $('#targetDiv').listSorter({ sortList: [[0,1]] });
      *              This will sort first (0) column of the table in descending(1) order
      *          headerList - Array to contain the list of header cells
      *          sortInitialOrder - "asc" or "desc". Default is "asc" (ascending).
@@ -51,10 +51,12 @@
             sortInitialOrder: "asc",
         }
 
-        // Overwrite defaults with user defined values
-        $.each(userConfig, function(index, configValue) {
-            config[index] = configValue;
-        });
+		if (userConfig) {
+			// Overwrite defaults with user defined values
+			$.each(userConfig, function(index, configValue) {
+				config[index] = configValue;
+			});
+		}
 
         self._sortCSS = [config.cssDesc, config.cssAsc];
         self.order = null;
@@ -82,7 +84,7 @@
 
         /**
          * _setAllParsers
-         * 
+         *
          * @description Adds all the possible sort parsers to self._parsers array
          * @return {}
          */
@@ -104,7 +106,7 @@
                 }
             }
 
-            //self._parsers[0]. Text (default) parsers 
+            //self._parsers[0]. Text (default) parsers
             addParser({
                 id: "text",
                 is: function(str) {
@@ -132,7 +134,7 @@
 
         /**
          * _isDigit
-         * 
+         *
          * @description Return true if the param s is Numeric
          * @param {String} str
          * @returns {Boolean}
@@ -144,7 +146,7 @@
 
         /**
          * _formatFloat
-         * 
+         *
          * @description Return true if the param s is Float
          * @param {String} str
          * @returns {Boolean}
@@ -157,10 +159,10 @@
 
         /**
          * _buildHeaders
-         * 
+         *
          * @description Create an array [config.headerList] of headers with order and count fo each header
-         * @returns $tableHeaders - return the jquery object for the headers of the table 
-         * 
+         * @returns $tableHeaders - return the jquery object for the headers of the table
+         *
          */
         this._buildHeaders = function() {
 
@@ -178,7 +180,7 @@
 
         /**
          * _buildParserCache
-         * 
+         *
          * @returns {Array}
          */
         this._buildParserCache = function() {
@@ -217,7 +219,7 @@
 
         /**
          * _formatSortingOrder
-         * 
+         *
          * @description Returns 1 or 0 for 'desc' or 'asc' respectively
          * @param {String} v
          * @returns {Number}
@@ -232,7 +234,7 @@
 
         /**
          * _getParserById
-         * 
+         *
          * @description Fetches the parser definition based on the passed ID (name). Returns 'false' if the parser with the passed ID is not found
          * @param {String} name
          * @returns specific self_parser object or {Boolean} false
@@ -249,7 +251,7 @@
 
         /**
          * _detectParserForColumn
-         * 
+         *
          * @description Fetches the parser definition (when the ID is not specified) based on the value in the cell nodes
          * @param {jQuery Selector} rows
          * @param {Numeric} rowIndex
@@ -282,7 +284,7 @@
 
         /**
          * _getNodeFromRowAndCellIndex
-         * 
+         *
          * @description A function to fetch the cell node based on the row-index and column-index
          * @param {jQuery Selector} rows
          * @param {Numeric} rowIndex
@@ -295,7 +297,7 @@
 
         /**
          * _buildCache
-         * 
+         *
          * @description text
          * @returns cache
          */
@@ -338,8 +340,8 @@
 
         /**
          * _initEvents
-         * 
-         * @description Function to initiate the events related to this plugin 
+         *
+         * @description Function to initiate the events related to this plugin
          */
         this._initEvents = function() {
             //handle the click on the header cells
@@ -376,10 +378,10 @@
 
         /**
          * _setHeadersCss
-         * 
+         *
          * @description Sets the CSS (config.cssDesc or config.cssAsc) on the headers when one of them is clicked
-         * @param {type} 
-         * @returns 
+         * @param {type}
+         * @returns
          */
         this._setHeadersCss = function() {
             var list = config.sortList;
@@ -399,7 +401,7 @@
 
         /**
          * _appendToTable
-         * 
+         *
          * @description Appends the sorted rows back to the table
          * @param {type} sortedCache
          * @returns {undefined}
@@ -429,28 +431,28 @@
 
         /**
          * _actualSort
-         * 
+         *
          * @description This function actually sorts the values of the columns
          * @returns cache
          */
         this._actualSort = function(index) {
             var sortList = config.sortList,
                 cache = self._cache;
-            
+
             var sortWrapper = function(a, b) {
                 var column = sortList[0][0],
                     order = sortList[0][1],
                     type = config.parsers[column].type;
-                
+
                 console.log(column + '-|-' + order + '-|-' + type);
                 //case: text - ascending
                 if (type === 'text' && order == 0) {
                     return (a[index] == b[index] ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : (a[index] < b[index]) ? -1 : 1)));
-                
+
                 //case: text - descending
                 } else if (type === 'text' && order == 1) {
                     return (a[index] == b[index] ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : (a[index] > b[index]) ? -1 : 1)));
-                    
+
                 //case: numeric - ascending
                 } else if (type === 'numeric' && order == 0) {
                     return (a[index] === null && b[index] === null ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : a[index] - b[index])));
@@ -458,13 +460,13 @@
                 //case: numeric - descending
                 } else if (type === 'numeric' && order == 1) {
                     return (a[index] == b[index] ? 0 : (a[index] === null ? Number.POSITIVE_INFINITY : (b[index] === null ? Number.NEGATIVE_INFINITY : b[index] - a[index])));
-                
+
                 //default case: if value is the same keep orignal order. Original order is stored in the last element of each item in cache.normalized
                 } else {
                     var orgOrderCol = cache.normalized[0].length - 1;
                     return a[orgOrderCol] - b[orgOrderCol];
                 }
-                
+
                 //fall back. If nothing works out, alteast make it return 0
                 return 0;
             }
@@ -478,7 +480,7 @@
 
         /**
          * _makeSortFunction
-         * 
+         *
          * @description A utility function to figure out different kinds of sorting. eg. text ascending/descending sort, numeric ascending/descending sort etc
          * @param {String} type : text or numeric
          * @param {String} direction : asc or desc
@@ -501,7 +503,7 @@
 
         /**
          * _sortOnLoad
-         * 
+         *
          * @description This function is called if the config.sortList is set by the user to sort the table by default
          * @returns {undefined}
          */
@@ -516,8 +518,8 @@
 
         /**
          * _updateHeaderSortCount
-         * 
-         * @description Update the 'count' property of the headers in config.headerList which are specified in the config.sortList 
+         *
+         * @description Update the 'count' property of the headers in config.headerList which are specified in the config.sortList
          * @returns {undefined}
          */
         this._updateHeaderSortCount = function() {
